@@ -29,9 +29,9 @@ export default function SliderWrapper({
     if (childrenArray.length === 0) return null;
 
     return (
-        <div className="w-full h-full overflow-hidden">
+        <div className="overflow-hidden">
             <div
-                className="flex h-full transition-transform duration-700 ease-in-out"
+                className="flex transition-transform duration-700 ease-in-out"
                 style={{
                     width: `${childrenArray.length * 100}%`,
                     transform: `translateX(-${index * (100 / childrenArray.length)}%)`,
