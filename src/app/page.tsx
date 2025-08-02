@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import {lintLinks} from "@/data/data";
+import {lintLinks, mainLinks} from "@/data/data";
+import SliderWrapper from "@/components/image_slider";
 
 export default function Home() {
   return (
@@ -8,13 +9,23 @@ export default function Home() {
         <div className="mb-10">
           {/* 대문 사진 - 반응형 */}
           <div className="flex justify-center ">
-            <Image
-                src="/images/3_11zon.webp"
-                alt="대문 배너"
-                width={1200}
-                height={400}
-                className="w-full max-w-5xl h-auto"
-            />
+              <SliderWrapper>
+                  {mainLinks.map((item, index) => (
+                      <Link
+                          key={index}
+                          href={item.href}
+                          target="_blank"
+                      >
+                          <Image
+                              src={item.image}
+                              alt={item.title}
+                              width={1200}
+                              height={400}
+                              className="w-full max-w-5xl h-auto"
+                          />
+                      </Link>
+                  ))}
+              </SliderWrapper>
           </div>
         </div>
 
