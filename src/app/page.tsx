@@ -3,20 +3,35 @@ import Link from "next/link";
 
 const links = [
   {
-    title: "1BET1",
+    title: "원벳원",
     href: "https://1bet1.one/?regcode=TV82",
     image: "/images/원벳원-400x120-TV82.jpg",
   },
   {
-    title: "ttwins",
+    title: "트윈스",
     href: "https://tw-aaa.com/?code=82TV",
     image: "/images/트윈스-400120.jpg",
   },
   {
-    title: "로이더뱃",
+    title: "로이더벳",
     href: "https://rd-365.com/login.asp",
     image: "/images/로이더벳_400x120.jpg",
   },
+  {
+    title: "와이벳",
+    href: "https://ybyb77.com/?joinCd=82TV",
+    image: "/images/ybet-400x120.png",
+  },
+  {
+    title: "도라에몽",
+    href: "https://do-1111.com/",
+    image: "/images/do-400x120.jpg",
+  },
+  {
+    title: "벳클라우드",
+    href: "https://bc-4q.com/_views/6_main/main.php",
+    image: "/images/벳클라우드_400x120.png",
+  }
 ];
 
 export default function Home() {
@@ -34,7 +49,6 @@ export default function Home() {
                     key={index}
                     href={item.href}
                     target="_blank"
-                    className="inline-block border"
                 >
                   <Image
                       src={item.image}
@@ -54,7 +68,6 @@ export default function Home() {
                     key={index}
                     href={item.href}
                     target="_blank"
-                    className="inline-block border"
                 >
                   <Image
                       src={item.image}
