@@ -6,13 +6,23 @@ import type { LinkItem } from "@/data/type";
 import Link from "next/link";
 import Image from "next/image";
 
+function shuffleArray<T>(array: T[]): T[] {
+    const result = [...array];
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+}
+
 export default function SubSlider() {
     const [subLinks, setSubLinks] = useState<LinkItem[]>([]);
 
     useEffect(() => {
         (async () => {
             const links = await getLinks('sub');
-            setSubLinks(links);
+            const shuffled = shuffleArray(links);
+            setSubLinks(shuffled);
         })();
     }, []);
 

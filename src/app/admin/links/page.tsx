@@ -94,9 +94,18 @@ export default function AdminLinksPage() {
                         </div>
 
                         <ul className="list-disc pl-5 text-sm text-gray-100 space-y-1 bg-gray-800 p-4 rounded-md">
-                            <li className="break-words"><strong>링크 주소:</strong> {item.href}</li>
-                            <li className="break-words"><strong>이미지 URL:</strong> {item.image}</li>
-                            <li className="break-words"><strong>제목:</strong> {item.title}</li>
+                            <li className="break-words">
+                                <strong>링크 주소:</strong>
+                                {item.href}
+                            </li>
+                            <li className="break-words">
+                                <strong>이미지 URL:</strong>
+                                {item.image}
+                            </li>
+                            <li className="break-words">
+                                <strong>제목:</strong>
+                                {item.title}
+                            </li>
                         </ul>
                     </div>
                 ))}
