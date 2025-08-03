@@ -1,8 +1,4 @@
-export interface LinkItem {
-    title: string;
-    href: string;
-    image: string;
-}
+import {LinkItem} from "@/data/type";
 
 export const mainLinks: LinkItem[] = [
     {

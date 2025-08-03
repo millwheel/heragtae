@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getMainLinks } from "@/lib/getLinks";
-import type { LinkItem } from "@/data/data";
+import type { LinkItem } from "@/data/type";
 import Link from "next/link";
 import Image from "next/image";
 import SliderWrapper from "@/components/sliderWrapper";
