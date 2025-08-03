@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getMainLinks } from "@/lib/getLinks";
+import { getLinks } from "@/lib/api";
 import type { LinkItem } from "@/data/type";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +12,7 @@ export default function MainSlider() {
 
     useEffect(() => {
         (async () => {
-            const links = await getMainLinks();
+            const links = await getLinks('main');
             setMainLinks(links);
         })();
     }, []);

@@ -10,8 +10,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-    title: "Hera Landing Page",
-    description: "Welcome to Hera's simple introduction website built with Next.js",
+    title: "Heragatae",
+    description: "Heragatae",
 };
 
 export default function RootLayout({

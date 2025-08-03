@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSubLinks } from "@/lib/getLinks";
+import {getLinks} from "@/lib/api";
 import type { LinkItem } from "@/data/type";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,7 +11,7 @@ export default function SubSlider() {
 
     useEffect(() => {
         (async () => {
-            const links = await getSubLinks();
+            const links = await getLinks('sub');
             setSubLinks(links);
         })();
     }, []);
@@ -55,7 +55,6 @@ export default function SubSlider() {
                     </Link>
                 ))}
             </div>
-
         </div>
     );
 }

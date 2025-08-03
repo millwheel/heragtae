@@ -3,3 +3,5 @@ export interface LinkItem {
     href: string;
     image: string;
 }
+
+export type Mode = "main" | "sub";
