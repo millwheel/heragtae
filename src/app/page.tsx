@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {listLinks, mainLinks} from "@/data/data";
-import SliderWrapper from "@/components/image_slider";
+import SliderWrapper from "@/components/sliderWrapper";
 
 export default function Home() {
   return (

@@ -17,7 +17,7 @@ export const mainLinks: LinkItem[] = [
     }
 ];
 
-export const listLinks = [
+export const listLinks: LinkItem[] = [
     {
         title: "원벳원",
         href: "https://1bet1.one/?regcode=TV82",
