@@ -4,4 +4,4 @@ export interface LinkItem {
     image: string;
 }
 
-export type Mode = "main" | "sub";
+export type Document = "main" | "sub";
