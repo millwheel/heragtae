@@ -5,11 +5,11 @@ import type {LinkItem, Document} from '@/data/type';
 import Image from 'next/image';
 import { getLinks, saveLinks} from '@/lib/api';
 import Link from "next/link";
+import {TrashIcon} from "@heroicons/react/24/solid";
 
 export default function AdminLinksPage() {
     const [mode, setMode] = useState<Document>('sub');
     const [items, setItems] = useState<LinkItem[]>([]);
-    const [newItem, setNewItem] = useState<LinkItem>({ href: '', image: '', title: '' });
 
     useEffect(() => {
         (async  () => {
@@ -23,18 +23,6 @@ export default function AdminLinksPage() {
         setItems(updated);
     }
 
-    function handleUpdate(index: number, field: keyof LinkItem, value: string) {
-        const updated = [...items];
-        updated[index] = { ...updated[index], [field]: value };
-        setItems(updated);
-    }
-
-    async function handleAdd() {
-        const updated = [...items, newItem];
-        await handleSave(updated);
-        setNewItem({ href: '', image: '', title: '' });
-    }
-
     async function handleDelete(index: number) {
         const updated = items.filter((_, i) => i !== index);
         await handleSave(updated);
@@ -45,7 +33,6 @@ export default function AdminLinksPage() {
             <h1 className="text-2xl font-bold">링크 관리</h1>
 
             <div className="flex justify-between items-center">
-                {/* 왼쪽: 모드 토글 버튼 */}
                 <div className="flex space-x-4">
                     <button
                         onClick={() => setMode('main')}
@@ -67,10 +54,9 @@ export default function AdminLinksPage() {
                     </button>
                 </div>
 
-                {/* 오른쪽: 새 링크 추가 버튼 */}
                 <Link
                     href={`/admin/links/new/${mode}`}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition whitespace-nowrap"
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-400 transition whitespace-nowrap"
                 >
                     {mode === 'main' ? '메인 배너 추가' : '서브 링크 추가'}
                 </Link>
@@ -78,34 +64,30 @@ export default function AdminLinksPage() {
 
             <div className="space-y-4">
                 {items.map((item, index) => (
-                    <div key={index} className="border p-4 flex flex-col space-y-2">
-                        <Image
-                            src={item.image}
-                            alt={item.title}
-                            width={200}
-                            height={60}
-                            className="object-contain"
-                        />
-                        <input
-                            className="border p-2" value={item.href}
-                            onChange={e => handleUpdate(index, 'href', e.target.value)}
-                            placeholder="링크 주소"
-                        />
-                        <input
-                            className="border p-2" value={item.image}
-                            onChange={e => handleUpdate(index, 'image', e.target.value)}
-                            placeholder="이미지 URL"
-                        />
-                        <input
-                            className="border p-2" value={item.title}
-                            onChange={e => handleUpdate(index, 'title', e.target.value)}
-                            placeholder="제목"
-                        />
-                        <button
-                            onClick={() => handleDelete(index)}
-                            className="text-red-600 hover:cursor-pointer">
-                            삭제
-                        </button>
+                    <div key={index} className="border p-4 flex flex-col space-y-2 rounded-lg shadow-sm">
+
+                        <div className="flex justify-between items-start">
+                            <Image
+                                src={item.image}
+                                alt={item.title}
+                                width={200}
+                                height={60}
+                                className="object-contain"
+                            />
+                            <button
+                                onClick={() => handleDelete(index)}
+                                className="text-red-600 text-xl hover:scale-110 transition hover:cursor-pointer"
+                                title="삭제"
+                            >
+                                <TrashIcon className="w-7 h-7" />
+                            </button>
+                        </div>
+
+                        <ul className="list-disc pl-5 text-sm text-gray-100 space-y-1 bg-gray-800 p-4 rounded-md">
+                            <li className="break-words"><strong>링크 주소:</strong> {item.href}</li>
+                            <li className="break-words"><strong>이미지 URL:</strong> {item.image}</li>
+                            <li className="break-words"><strong>제목:</strong> {item.title}</li>
+                        </ul>
                     </div>
                 ))}
             </div>
