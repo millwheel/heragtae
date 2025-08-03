@@ -12,15 +12,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          {/* 데스크톱: 2열 Flexbox */}
-          <div className="hidden md:flex md:flex-wrap md:justify-center">
-              <SubSlider />
-          </div>
-
-          {/* 모바일: 1열 중앙 정렬 */}
-          <div className="md:hidden flex flex-col items-center">
-              <SubSlider />
-          </div>
+            <SubSlider />
         </div>
       </main>
   );
