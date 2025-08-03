@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import type {LinkItem, Document} from '@/data/type';
 import Image from 'next/image';
-import { getLinks, saveLinks} from '@/lib/api';
+import {deleteImageFromStorage, getLinks, saveLinks} from '@/lib/api';
 import Link from "next/link";
 import {TrashIcon} from "@heroicons/react/24/solid";
+import toast from "react-hot-toast";
 
 export default function AdminLinksPage() {
     const [mode, setMode] = useState<Document>('sub');
@@ -24,7 +25,16 @@ export default function AdminLinksPage() {
     }
 
     async function handleDelete(index: number) {
+        const itemToDelete = items[index];
         const updated = items.filter((_, i) => i !== index);
+
+        try {
+            await deleteImageFromStorage(itemToDelete.image);
+        } catch (e) {
+            toast.error("이미지 삭제 실패");
+            console.error("이미지 삭제 실패:", e);
+        }
+
         await handleSave(updated);
     }
 
