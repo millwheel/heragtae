@@ -1,36 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import {listLinks, mainLinks} from "@/data/data";
-import SliderWrapper from "@/components/sliderWrapper";
+import {listLinks} from "@/data/data";
+import MainSlider from "@/components/mainSlider";
 
 export default function Home() {
   return (
       <main className="min-h-screen p-2">
         <div className="mb-10">
           {/* 대문 사진 - 반응형 */}
-          <div className="flex justify-center ">
-              <SliderWrapper>
-                  {mainLinks.map((item, index) => (
-                      <Link
-                          key={index}
-                          href={item.href}
-                          target="_blank"
-                      >
-                          <Image
-                              src={item.image}
-                              alt={item.title}
-                              width={1200}
-                              height={400}
-                              className="w-full max-w-5xl h-auto"
-                          />
-                      </Link>
-                  ))}
-              </SliderWrapper>
-          </div>
+          <MainSlider />
         </div>
 
         <div className="max-w-6xl mx-auto">
-
           {/* 데스크톱: 2열 Flexbox */}
           <div className="hidden md:flex md:flex-wrap md:justify-center">
             {listLinks.map((item, index) => (
