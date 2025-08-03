@@ -1,24 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getListLinks } from "@/lib/getLinks";
+import { getSubLinks } from "@/lib/getLinks";
 import type { LinkItem } from "@/data/type";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function ListSlider() {
-    const [listLinks, setListLinks] = useState<LinkItem[]>([]);
+export default function SubSlider() {
+    const [subLinks, setSubLinks] = useState<LinkItem[]>([]);
 
     useEffect(() => {
         (async () => {
-            const links = await getListLinks();
-            setListLinks(links);
+            const links = await getSubLinks();
+            setSubLinks(links);
         })();
     }, []);
 
     return (
         <div>
-            {listLinks.map((item, index) => (
+            {subLinks.map((item, index) => (
                 <Link
                     key={index}
                     href={item.href}

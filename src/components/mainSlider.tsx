@@ -18,7 +18,7 @@ export default function MainSlider() {
     }, []);
 
     return (
-        <div className="flex justify-center">
+        <div>
             <SliderWrapper>
                 {mainLinks.map((item, index) => (
                     <Link key={index} href={item.href} target="_blank">

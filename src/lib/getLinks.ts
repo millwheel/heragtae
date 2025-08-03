@@ -8,8 +8,8 @@ export async function getMainLinks(): Promise<LinkItem[]> {
     return snap.exists() ? snap.data().items : [];
 }
 
-export async function getListLinks(): Promise<LinkItem[]> {
-    const ref = doc(db, "links", "list");
+export async function getSubLinks(): Promise<LinkItem[]> {
+    const ref = doc(db, "links", "sub");
     const snap = await getDoc(ref);
     return snap.exists() ? snap.data().items : [];
 }
