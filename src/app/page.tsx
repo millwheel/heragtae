@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {lintLinks, mainLinks} from "@/data/data";
+import {listLinks, mainLinks} from "@/data/data";
 import SliderWrapper from "@/components/image_slider";
 
 export default function Home() {
@@ -33,7 +33,7 @@ export default function Home() {
 
           {/* 데스크톱: 2열 Flexbox */}
           <div className="hidden md:flex md:flex-wrap md:justify-center">
-            {lintLinks.map((item, index) => (
+            {listLinks.map((item, index) => (
                 <Link
                     key={index}
                     href={item.href}
@@ -52,7 +52,7 @@ export default function Home() {
 
           {/* 모바일: 1열 중앙 정렬 */}
           <div className="md:hidden flex flex-col items-center">
-            {lintLinks.map((item, index) => (
+            {listLinks.map((item, index) => (
                 <Link
                     key={index}
                     href={item.href}
