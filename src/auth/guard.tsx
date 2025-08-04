@@ -11,7 +11,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         const unsubscribe = observeAuthState((user) => {
             if (!user) {
-                router.replace("/login");
+                router.push("/login");
             } else {
                 setLoading(false);
             }

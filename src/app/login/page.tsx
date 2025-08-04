@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {FirebaseError} from "@firebase/app";
-import {loginWithEmail} from "@/lib/api";
+import {login} from "@/lib/api";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -15,12 +15,8 @@ export default function LoginPage() {
         e.preventDefault();
 
         try {
-            const user = await loginWithEmail(email, password);
-            if (user.email === "admin@example.com") {
-                router.push("/admin/links");
-            } else {
-                setError("관리자 권한이 없습니다.");
-            }
+            await login(email, password);
+            router.push("/admin");
         } catch (err) {
             const errorMessage = err instanceof FirebaseError ? err.message : "알 수 없는 오류";
             setError("로그인 실패: " + errorMessage);
