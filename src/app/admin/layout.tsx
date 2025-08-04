@@ -1,19 +1,40 @@
 "use client";
 
-import AdminGuard from "@/auth/guard";
 import { useRouter } from "next/navigation";
-import {logout} from "@/lib/api";
+import {logout, observeAuthState} from "@/lib/api";
+import {useEffect, useState} from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
+
+    useEffect(() => {
+        const unsubscribe = observeAuthState((user) => {
+            if (!user) {
+                router.replace("/login");
+            } else {
+                setLoading(false);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [router]);
 
     async function handleLogout() {
         await logout();
         router.replace("/");
     }
 
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
     return (
-        <AdminGuard>
+        <>
             <div className="w-full border-b flex justify-end p-4 bg-gray-50">
                 <button
                     onClick={handleLogout}
@@ -25,6 +46,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="p-6">
                 {children}
             </div>
-        </AdminGuard>
+        </>
     );
 }
