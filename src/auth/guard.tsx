@@ -12,8 +12,6 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
         const unsubscribe = observeAuthState((user) => {
             if (!user) {
                 router.replace("/login");
-            } else if (user.email !== "admin@example.com") {
-                router.replace("/login");
             } else {
                 setLoading(false);
             }
