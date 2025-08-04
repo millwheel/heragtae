@@ -5,7 +5,7 @@ import type {LinkItem, Document} from '@/data/type';
 import Image from 'next/image';
 import {deleteImageFromStorage, getLinks, saveLinks} from '@/lib/api';
 import Link from "next/link";
-import {TrashIcon} from "@heroicons/react/24/solid";
+import {CheckIcon, TrashIcon} from "@heroicons/react/24/solid";
 import toast from "react-hot-toast";
 
 export default function AdminLinksPage() {
@@ -46,21 +46,27 @@ export default function AdminLinksPage() {
                 <div className="flex space-x-4">
                     <button
                         onClick={() => setMode('main')}
-                        className={`px-4 py-2 rounded-lg font-semibold transition hover:cursor-pointer
+                        className={`px-4 py-2 rounded-lg transition hover:cursor-pointer
                         ${mode === 'main'
-                            ? 'bg-red-500 text-white shadow-lg scale-105'
+                            ? 'bg-gray-500 text-white shadow-lg scale-105 font-semibold'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                     >
-                        메인 배너 링크
+                        <div className="flex space-x-2">
+                            {mode === 'main' && <CheckIcon className="w-5 h-5" />}
+                            <span>메인 배너 링크</span>
+                        </div>
                     </button>
                     <button
                         onClick={() => setMode('sub')}
-                        className={`px-4 py-2 rounded-lg font-semibold transition hover:cursor-pointer
+                        className={`px-4 py-2 rounded-lg transition hover:cursor-pointer
                         ${mode === 'sub'
-                            ? 'bg-red-500 text-white shadow-lg scale-105'
+                            ? 'bg-gray-500 text-white shadow-lg scale-105 font-semibold'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                     >
-                        서브 리스트 링크
+                        <div className="flex space-x-2">
+                            {mode === 'sub' && <CheckIcon className="w-5 h-5" />}
+                            <span>서브 리스트 링크</span>
+                        </div>
                     </button>
                 </div>
 
