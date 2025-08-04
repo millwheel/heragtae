@@ -17,7 +17,7 @@ export default function LoginPage() {
         try {
             const user = await loginWithEmail(email, password);
             if (user.email === "admin@example.com") {
-                router.push("/admin");
+                router.push("/admin/links");
             } else {
                 setError("관리자 권한이 없습니다.");
             }
