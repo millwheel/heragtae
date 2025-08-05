@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SliderWrapper from "@/components/sliderWrapper";
 
-export default function MainSlider() {
+export default function MainLinks() {
     const [mainLinks, setMainLinks] = useState<LinkItem[]>([]);
 
     useEffect(() => {

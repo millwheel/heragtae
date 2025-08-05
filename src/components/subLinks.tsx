@@ -15,7 +15,7 @@ function shuffleArray<T>(array: T[]): T[] {
     return result;
 }
 
-export default function SubSlider() {
+export default function SubLinks() {
     const [subLinks, setSubLinks] = useState<LinkItem[]>([]);
 
     useEffect(() => {
