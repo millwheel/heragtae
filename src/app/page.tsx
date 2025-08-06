@@ -1,5 +1,5 @@
-import MainSlider from "@/components/mainSlider";
-import SubSlider from "@/components/subSlider";
+import MainLinks from "@/components/mainLinks";
+import SubLinks from "@/components/subLinks";
 
 export default function Home() {
   return (
@@ -7,12 +7,12 @@ export default function Home() {
         <div className="mb-10">
             <div className="flex justify-center">
               {/* 대문 사진 - 반응형 */}
-              <MainSlider />
+              <MainLinks />
             </div>
         </div>
 
         <div className="max-w-6xl mx-auto">
-            <SubSlider />
+            <SubLinks />
         </div>
       </main>
   );
