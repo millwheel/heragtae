@@ -5,6 +5,7 @@ import {getLinks} from "@/lib/api";
 import type { LinkItem } from "@/data/type";
 import Link from "next/link";
 import Image from "next/image";
+import FadeInWrapper from "@/components/fadeInWrapper";
 
 function shuffleArray<T>(array: T[]): T[] {
     const result = [...array];
@@ -36,13 +37,15 @@ export default function SubLinks() {
                         href={item.href}
                         target="_blank"
                     >
-                        <Image
-                            src={item.image}
-                            alt={item.title}
-                            width={400}
-                            height={120}
-                            className="max-w-[400px] h-auto"
-                        />
+                        <FadeInWrapper delay={index * 25}>
+                            <Image
+                                src={item.image}
+                                alt={item.title}
+                                width={400}
+                                height={120}
+                                className="max-w-[400px] h-auto"
+                            />
+                        </FadeInWrapper>
                     </Link>
                 ))}
             </div>
@@ -55,13 +58,15 @@ export default function SubLinks() {
                         href={item.href}
                         target="_blank"
                     >
-                        <Image
-                            src={item.image}
-                            alt={item.title}
-                            width={400}
-                            height={120}
-                            className="max-w-[400px] h-auto"
-                        />
+                        <FadeInWrapper delay={index * 25}>
+                            <Image
+                                src={item.image}
+                                alt={item.title}
+                                width={400}
+                                height={120}
+                                className="max-w-[400px] h-auto"
+                            />
+                        </FadeInWrapper>
                     </Link>
                 ))}
             </div>
