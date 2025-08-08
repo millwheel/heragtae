@@ -25,8 +25,8 @@ export default function MainLinks() {
                         <Image
                             src={item.image}
                             alt={item.title}
-                            width={1200}
-                            height={400}
+                            width={1000}
+                            height={420}
                             className="w-full max-w-5xl h-auto"
                         />
                     </Link>
