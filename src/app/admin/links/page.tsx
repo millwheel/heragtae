@@ -43,6 +43,7 @@ export default function AdminLinksPage() {
             <h1 className="text-2xl font-bold">링크 관리</h1>
 
             <div className="flex justify-between items-center">
+                {/* 상단 카테고리 선택 */}
                 <div className="flex space-x-4">
                     <button
                         onClick={() => setMode('main')}
@@ -70,6 +71,7 @@ export default function AdminLinksPage() {
                     </button>
                 </div>
 
+                {/* 새 링크 추가 */}
                 <Link
                     href={`/admin/links/new/${mode}`}
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-400 transition whitespace-nowrap"
