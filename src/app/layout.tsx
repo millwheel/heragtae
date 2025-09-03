@@ -10,8 +10,35 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-    title: "Heragatae",
-    description: "Heragatae",
+    metadataBase: new URL("https://www.bojeung911.net/"),
+    title: {
+        default: "보증911",
+        template: "%s | 보증911",
+    },
+    description: "보증911",
+    keywords: ["보증", "검증", "블랙리스트", "안전거래"],
+    alternates: {
+        canonical: "/",
+        languages: {
+            "ko-KR": "/",
+        },
+    },
+    // openGraph: {
+    //     type: "website",
+    //     siteName: "보증911",
+    //     title: "보증911",
+    //     description: "보증911",
+    //     url: "https://www.bozung911.com",
+    //     images: [
+    //         {
+    //             url: "/og/og-default.png", // 1200x630 권장
+    //             width: 1200,
+    //             height: 630,
+    //             alt: "보증911",
+    //         },
+    //     ],
+    //     locale: "ko_KR",
+    // },
 };
 
 export default function RootLayout({
