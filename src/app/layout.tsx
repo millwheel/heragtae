@@ -23,22 +23,22 @@ export const metadata: Metadata = {
             "ko-KR": "/",
         },
     },
-    // openGraph: {
-    //     type: "website",
-    //     siteName: "보증911",
-    //     title: "보증911",
-    //     description: "보증911",
-    //     url: "https://www.bozung911.com",
-    //     images: [
-    //         {
-    //             url: "/og/og-default.png", // 1200x630 권장
-    //             width: 1200,
-    //             height: 630,
-    //             alt: "보증911",
-    //         },
-    //     ],
-    //     locale: "ko_KR",
-    // },
+    openGraph: {
+        type: "website",
+        siteName: "보증911",
+        title: "보증911",
+        description: "보증911",
+        url: "https://www.bojeung911.net/",
+        images: [
+            {
+                url: "/og.png",
+                width: 300,
+                height: 600,
+                alt: "보증911",
+            },
+        ],
+        locale: "ko_KR",
+    },
 };
 
 export default function RootLayout({
