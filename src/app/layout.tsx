@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: "https://www.bojeung911.net/",
         images: [
             {
-                url: "/og.png",
+                url: "image/og.png",
                 width: 300,
                 height: 600,
                 alt: "보증911",
