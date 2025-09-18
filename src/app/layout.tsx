@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         default: "보증911",
         template: "%s | 보증911",
     },
-    description: "보증911",
+    description: "보증911 | 2025년 검증되고 가장 안전한 사이트, 보증사이트, 먹튀검증, 메이저사이트, 먹튀 없는 토토사이트",
     keywords: ["보증", "검증", "블랙리스트", "안전거래"],
     alternates: {
         canonical: "/",
