@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {Roboto} from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header";
+import GlobalNavigationBar from "@/components/globalNavigationBar";
 
 const roboto = Roboto({
     subsets: ["latin"],
@@ -49,7 +49,7 @@ export default function RootLayout({
     return (
         <html lang="ko" className={roboto.variable}>
             <body>
-                <Header />
+                <GlobalNavigationBar />
                 <main>{children}</main>
             </body>
         </html>
