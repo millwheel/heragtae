@@ -3,6 +3,7 @@ import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "fi
 import {LinkType, LinkItem, Blog} from "@/data/type";
 import {deleteObject, ref} from "firebase/storage";
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from "firebase/auth";
+import {serverTimestamp} from "@firebase/database";
 
 export async function getLinks(linkType: LinkType): Promise<LinkItem[]> {
     const ref = doc(db, "links", linkType);
@@ -18,18 +19,46 @@ export async function saveLinks(linkType: LinkType, items: LinkItem[]): Promise<
 export async function getBlogs(): Promise<Blog[]> {
     const colRef = collection(db, "blogs");
     const snapshot = await getDocs(colRef);
-    return snapshot.docs.map((doc) => doc.data() as Blog);
+    return snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+            title: data.title,
+            slug: data.slug,
+            content: data.content,
+            createdAt: data.createdAt?.toDate?.() ?? new Date(),
+            updatedAt: data.updatedAt?.toDate?.() ?? new Date(),
+        } as Blog;
+    });
 }
 
 export async function getBlog(slug: string): Promise<Blog | null> {
     const docRef = doc(db, "blogs", slug);
     const snap = await getDoc(docRef);
-    return snap.exists() ? (snap.data() as Blog) : null;
+    if (!snap.exists()) return null;
+
+    const data = snap.data();
+    return {
+        title: data.title,
+        slug: data.slug,
+        content: data.content,
+        createdAt: data.createdAt?.toDate?.() ?? new Date(),
+        updatedAt: data.updatedAt?.toDate?.() ?? new Date(),
+    } as Blog;
 }
 
-export async function saveBlog(blog: Blog): Promise<void> {
+export async function saveBlog(blog: Omit<Blog, "createdAt" | "updatedAt">): Promise<void> {
     const docRef = doc(db, "blogs", blog.slug);
-    await setDoc(docRef, blog);
+    const snap = await getDoc(docRef);
+
+    await setDoc(
+        docRef,
+        {
+            ...blog,
+            createdAt: snap.exists() ? snap.data().createdAt ?? serverTimestamp() : serverTimestamp(),
+            updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+    );
 }
 
 export async function deleteBlog(slug: string): Promise<void> {
