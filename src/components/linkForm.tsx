@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { LinkItem, Document } from '@/data/type';
+import type { LinkItem, LinkType } from '@/data/type';
 import { getLinks, saveLinks } from '@/lib/api';
 import { storage } from '@/lib/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -10,12 +10,12 @@ import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
 
 interface LinkFormProps {
-    document: Document;
+    linkType: LinkType;
     title: string;
     imageFolder: string;
 }
 
-export default function LinkForm({ document, title, imageFolder }: LinkFormProps) {
+export default function LinkForm({ linkType, title, imageFolder }: LinkFormProps) {
     const router = useRouter();
     const [newItem, setNewItem] = useState<LinkItem>({ href: '', image: '', title: '' });
     const [uploading, setUploading] = useState(false);
@@ -59,9 +59,9 @@ export default function LinkForm({ document, title, imageFolder }: LinkFormProps
             return;
         }
 
-        const current = await getLinks(document);
+        const current = await getLinks(linkType);
         const updated = [...current, newItem];
-        await saveLinks(document, updated);
+        await saveLinks(linkType, updated);
         router.push('/admin/links');
     }
 

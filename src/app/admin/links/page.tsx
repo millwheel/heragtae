@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type {LinkItem, Document} from '@/data/type';
+import type {LinkItem, LinkType} from '@/data/type';
 import Image from 'next/image';
 import {deleteImageFromStorage, getLinks, saveLinks} from '@/lib/api';
 import Link from "next/link";
@@ -9,18 +9,18 @@ import {CheckIcon, TrashIcon} from "@heroicons/react/24/solid";
 import toast from "react-hot-toast";
 
 export default function AdminLinksPage() {
-    const [mode, setMode] = useState<Document>('sub');
+    const [linkType, setLinkType] = useState<LinkType>('sub');
     const [items, setItems] = useState<LinkItem[]>([]);
 
     useEffect(() => {
         (async  () => {
-            const links = await getLinks(mode);
+            const links = await getLinks(linkType);
             setItems(links);
         })();
-    }, [mode]);
+    }, [linkType]);
 
     async function handleSave(updated: LinkItem[]) {
-        await saveLinks(mode, updated);
+        await saveLinks(linkType, updated);
         setItems(updated);
     }
 
@@ -46,26 +46,26 @@ export default function AdminLinksPage() {
                 {/* 상단 카테고리 선택 */}
                 <div className="flex space-x-4">
                     <button
-                        onClick={() => setMode('main')}
+                        onClick={() => setLinkType('main')}
                         className={`px-4 py-2 rounded-lg transition hover:cursor-pointer
-                        ${mode === 'main'
+                        ${linkType === 'main'
                             ? 'bg-gray-500 text-white shadow-lg scale-105 font-semibold'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                     >
                         <div className="flex space-x-2">
-                            {mode === 'main' && <CheckIcon className="w-5 h-5" />}
+                            {linkType === 'main' && <CheckIcon className="w-5 h-5" />}
                             <span>메인 배너 링크</span>
                         </div>
                     </button>
                     <button
-                        onClick={() => setMode('sub')}
+                        onClick={() => setLinkType('sub')}
                         className={`px-4 py-2 rounded-lg transition hover:cursor-pointer
-                        ${mode === 'sub'
+                        ${linkType === 'sub'
                             ? 'bg-gray-500 text-white shadow-lg scale-105 font-semibold'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                     >
                         <div className="flex space-x-2">
-                            {mode === 'sub' && <CheckIcon className="w-5 h-5" />}
+                            {linkType === 'sub' && <CheckIcon className="w-5 h-5" />}
                             <span>서브 리스트 링크</span>
                         </div>
                     </button>
@@ -73,10 +73,10 @@ export default function AdminLinksPage() {
 
                 {/* 새 링크 추가 */}
                 <Link
-                    href={`/admin/links/new/${mode}`}
+                    href={`/admin/links/new/${linkType}`}
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-400 transition whitespace-nowrap"
                 >
-                    {mode === 'main' ? '메인 배너 추가' : '서브 링크 추가'}
+                    {linkType === 'main' ? '메인 배너 추가' : '서브 링크 추가'}
                 </Link>
             </div>
 

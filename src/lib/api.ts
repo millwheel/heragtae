@@ -1,17 +1,17 @@
 import {auth, db, storage} from "@/lib/firebase";
 import {doc, getDoc, updateDoc} from "firebase/firestore";
-import {Document, LinkItem} from "@/data/type";
+import {LinkType, LinkItem} from "@/data/type";
 import {deleteObject, ref} from "firebase/storage";
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from "firebase/auth";
 
-export async function getLinks(document: Document): Promise<LinkItem[]> {
-    const ref = doc(db, "links", document);
+export async function getLinks(docFolder: LinkType): Promise<LinkItem[]> {
+    const ref = doc(db, "links", docFolder);
     const snap = await getDoc(ref);
     return snap.exists() ? snap.data().items ?? [] : [];
 }
 
-export async function saveLinks(document: Document, items: LinkItem[]): Promise<void> {
-    const ref = doc(db, "links", document);
+export async function saveLinks(docFolder: LinkType, items: LinkItem[]): Promise<void> {
+    const ref = doc(db, "links", docFolder);
     await updateDoc(ref, { items });
 }
 
