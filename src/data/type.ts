@@ -8,5 +8,6 @@ export type LinkType = "main" | "sub";
 
 export interface Blog {
     title: string;
+    slug: string;
     content: string;
 }

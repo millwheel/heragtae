@@ -1,18 +1,40 @@
 import {auth, db, storage} from "@/lib/firebase";
-import {doc, getDoc, updateDoc} from "firebase/firestore";
-import {LinkType, LinkItem} from "@/data/type";
+import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {LinkType, LinkItem, Blog} from "@/data/type";
 import {deleteObject, ref} from "firebase/storage";
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from "firebase/auth";
 
-export async function getLinks(docFolder: LinkType): Promise<LinkItem[]> {
-    const ref = doc(db, "links", docFolder);
+export async function getLinks(linkType: LinkType): Promise<LinkItem[]> {
+    const ref = doc(db, "links", linkType);
     const snap = await getDoc(ref);
     return snap.exists() ? snap.data().items ?? [] : [];
 }
 
-export async function saveLinks(docFolder: LinkType, items: LinkItem[]): Promise<void> {
-    const ref = doc(db, "links", docFolder);
+export async function saveLinks(linkType: LinkType, items: LinkItem[]): Promise<void> {
+    const ref = doc(db, "links", linkType);
     await updateDoc(ref, { items });
+}
+
+export async function getBlogs(): Promise<Blog[]> {
+    const colRef = collection(db, "blogs");
+    const snapshot = await getDocs(colRef);
+    return snapshot.docs.map((doc) => doc.data() as Blog);
+}
+
+export async function getBlog(slug: string): Promise<Blog | null> {
+    const docRef = doc(db, "blogs", slug);
+    const snap = await getDoc(docRef);
+    return snap.exists() ? (snap.data() as Blog) : null;
+}
+
+export async function saveBlog(blog: Blog): Promise<void> {
+    const docRef = doc(db, "blogs", blog.slug);
+    await setDoc(docRef, blog);
+}
+
+export async function deleteBlog(slug: string): Promise<void> {
+    const docRef = doc(db, "blogs", slug);
+    await deleteDoc(docRef);
 }
 
 export async function deleteImageFromStorage(imageUrl: string): Promise<void> {
