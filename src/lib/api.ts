@@ -19,16 +19,21 @@ export async function saveLinks(linkType: LinkType, items: LinkItem[]): Promise<
 export async function getBlogs(): Promise<Blog[]> {
     const colRef = collection(db, "blogs");
     const snapshot = await getDocs(colRef);
-    return snapshot.docs.map((doc) => {
+    const blogs = snapshot.docs.map((doc) => {
         const data = doc.data();
         return {
             title: data.title,
             slug: data.slug,
             content: data.content,
-            createdAt: data.createdAt?.toDate?.() ?? new Date(),
-            updatedAt: data.updatedAt?.toDate?.() ?? new Date(),
+            createdAt: data.createdAt?.toDate?.() ?? new Date(0),
+            updatedAt: data.updatedAt?.toDate?.() ?? new Date(0),
         } as Blog;
     });
+
+    // createdAt 기준 내림차순 정렬 (최신 글 먼저)
+    blogs.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    return blogs;
 }
 
 export async function getBlog(slug: string): Promise<Blog | null> {
