@@ -3,12 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Blog } from "@/data/type";
-import { getBlogs } from "@/lib/api"; // 실제 경로 맞춰주세요
-
-function excerpt(text: string, max = 200) {
-    const flat = (text ?? "").replace(/\s+/g, " ").trim();
-    return flat.length > max ? flat.slice(0, max) + "…" : flat;
-}
+import { getBlogs } from "@/lib/api";
+import {excerpt} from "@/util/stringUtils";
 
 export default function BlogsPage() {
     const [blogs, setBlogs] = useState<Blog[]>([]);
