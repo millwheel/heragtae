@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { saveBlog, getBlog } from "@/lib/api";
+import AdminActionBar from "@/components/adminActionBar";
 
 const SLUG_REGEX = /^[A-Za-z-]+$/;
 function validateSlug(s: string): boolean {
@@ -15,6 +16,7 @@ export default function AdminBlogNewPage() {
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
     const [content, setContent] = useState("");
+    const [uploading, setUploading] = useState(false);
 
     const slugInvalid = slug.length > 0 && !validateSlug(slug);
 
@@ -32,6 +34,7 @@ export default function AdminBlogNewPage() {
             return;
         }
 
+        setUploading(true);
         try {
             const exists = await getBlog(trimmedSlug);
             if (exists) {
@@ -50,6 +53,8 @@ export default function AdminBlogNewPage() {
         } catch (err) {
             toast.error("저장 중 오류가 발생했습니다.");
             console.error("블로그 저장 실패:", err);
+        } finally {
+            setUploading(false);
         }
     }
 
@@ -59,23 +64,12 @@ export default function AdminBlogNewPage() {
 
             <h1 className="text-2xl font-bold">새 블로그 글 작성</h1>
 
-            {/* 상단 액션 바: 목록 / 저장 나란히 */}
-            <div className="flex justify-between mb-12">
-                <button
-                    onClick={() => router.push("/admin/blogs")}
-                    className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-400 hover:cursor-pointer"
-                >
-                    목록으로 돌아가기
-                </button>
-                <button
-                    onClick={handleSubmit}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-400 hover:cursor-pointer"
-                >
-                    저장
-                </button>
-            </div>
+            <AdminActionBar
+                backPath="/admin/blogs"
+                onSave={handleSubmit}
+                loading={uploading}
+            />
 
-            {/* 입력 폼 (LinkForm 스타일 맞춤) */}
             <div className="space-y-5">
                 <div className="space-y-2">
                     <label className="block text-md font-medium">제목</label>
