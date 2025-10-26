@@ -44,6 +44,7 @@ export default function SubLinks() {
                                 width={400}
                                 height={120}
                                 className="max-w-[400px] h-auto"
+                                unoptimized
                             />
                         </FadeInWrapper>
                     </Link>
@@ -65,6 +66,7 @@ export default function SubLinks() {
                                 width={400}
                                 height={120}
                                 className="max-w-[400px] h-auto"
+                                unoptimized
                             />
                         </FadeInWrapper>
                     </Link>
