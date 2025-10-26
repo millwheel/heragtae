@@ -4,15 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { saveBlog, getBlog } from "@/lib/api";
-import AdminActionBar from "@/components/adminActionBar";
 import {validateSlug} from "@/util/stringUtils";
+import BlogForm from "@/components/blogForm";
 
 export default function AdminBlogNewPage() {
     const router = useRouter();
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
     const [content, setContent] = useState("");
-    const [uploading, setUploading] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     const slugInvalid = slug.length > 0 && !validateSlug(slug);
 
@@ -30,7 +30,7 @@ export default function AdminBlogNewPage() {
             return;
         }
 
-        setUploading(true);
+        setSaving(true);
         try {
             const exists = await getBlog(trimmedSlug);
             if (exists) {
@@ -50,67 +50,25 @@ export default function AdminBlogNewPage() {
             toast.error("저장 중 오류가 발생했습니다.");
             console.error("블로그 저장 실패:", err);
         } finally {
-            setUploading(false);
+            setSaving(false);
         }
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-6 space-y-6">
+        <>
             <Toaster position="top-center" />
-
-            <h1 className="text-2xl font-bold">새 블로그 글 작성</h1>
-
-            <AdminActionBar
-                backPath="/admin/blogs"
+            <BlogForm
+                mode="create"
+                title={title}
+                slug={slug}
+                content={content}
+                slugInvalid={slugInvalid}
+                saving={saving}
+                onChangeTitle={setTitle}
+                onChangeSlug={setSlug}
+                onChangeContent={setContent}
                 onSave={handleSubmit}
-                loading={uploading}
             />
-
-            <div className="space-y-5">
-                <div className="space-y-2">
-                    <label className="block text-md font-medium">제목</label>
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="제목을 입력하세요"
-                        className="border p-2 w-full rounded"
-                    />
-                </div>
-
-                <div className="space-y-1">
-                    <label className="block text-md font-medium">슬러그</label>
-                    <input
-                        type="text"
-                        value={slug}
-                        onChange={(e) => setSlug(e.target.value)}
-                        placeholder="예: my-first-post"
-                        className={`border p-2 w-full rounded ${
-                            slugInvalid ? "border-red-500" : ""
-                        }`}
-                    />
-                    <p className={`text-xs ${slugInvalid ? "text-red-600" : "text-gray-500"}`}>
-                        {slugInvalid ? (
-                            "슬러그는 영문자와 하이픈(-)만 가능합니다."
-                        ) : (
-                            <>
-                                URL에 사용됩니다. 예) <code>/blogs/{slug || "my-first-post"}</code>
-                            </>
-                        )}
-                    </p>
-                </div>
-
-                <div className="space-y-2">
-                    <label className="block text-md font-medium">본문</label>
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="내용을 입력하세요"
-                        rows={12}
-                        className="border p-2 w-full rounded resize-none"
-                    />
-                </div>
-            </div>
-        </div>
+        </>
     );
 }
