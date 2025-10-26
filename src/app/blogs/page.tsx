@@ -1,20 +1,12 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { Blog } from "@/data/type";
-import { getBlogs } from "@/lib/api";
 import {excerpt} from "@/util/stringUtils";
+import {fetchBlogs} from "@/lib/serverApi";
 
-export default function BlogsPage() {
-    const [blogs, setBlogs] = useState<Blog[]>([]);
+export const revalidate = 60;
+export const runtime = "nodejs";
 
-    useEffect(() => {
-        (async () => {
-            const list = await getBlogs();
-            setBlogs(list);
-        })();
-    }, []);
+export default async function BlogsPage() {
+    const blogs = await fetchBlogs();
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-10">

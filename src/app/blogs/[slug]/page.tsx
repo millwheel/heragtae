@@ -1,39 +1,46 @@
-"use client";
+import { notFound } from "next/navigation";
+import {fetchAllSlugs, fetchBlog} from "@/lib/serverApi";
+import {Metadata} from "next";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import type { Blog } from "@/data/type";
-import { getBlog } from "@/lib/api";
+export const revalidate = 60;
+export const runtime = "nodejs";
+export const dynamicParams = true;
 
-export default function BlogDetailPage() {
-    const params = useParams<{ slug: string }>();
-    const slug = params?.slug;
-    const [blog, setBlog] = useState<Blog | null>(null);
+export async function generateStaticParams() {
+    const slugs = await fetchAllSlugs();
+    return slugs.map((slug) => ({ slug }));
+}
 
-    useEffect(() => {
-        if (!slug) return;
-        (async () => {
-            const data = await getBlog(slug);
-            setBlog(data);
-        })();
-    }, [slug]);
+export async function generateMetadata(
+    { params }: { params: { slug: string } }
+): Promise<Metadata> {
+    const blog = await fetchBlog(params.slug);
+    const title = blog?.title ?? "제목 없는 블로그";
+    const description = blog
+        ? blog.content.slice(0, 200) + (blog.content.length > 200 ? "…" : "")
+        : "게시글을 찾을 수 없습니다.";
+
+    return {
+        title,
+        description,
+        alternates: { canonical: `/blogs/${params.slug}` },
+    };
+}
+
+export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
+    const blog = await fetchBlog(params.slug);
+    if (!blog) return notFound();
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-10">
-            <div className="">
-                {!blog ? (
-                    <p className="text-gray-500">해당 글을 찾을 수 없습니다.</p>
-                ) : (
-                    <div className="flex flex-col gap-5">
-                        <div className="bg-gray-700 p-4 rounded-lg">
-                            <h2 className="!mt-0 text-2xl font-bold">{blog.title}</h2>
-                        </div>
+            <div className="flex flex-col gap-5">
+                <div className="bg-gray-700 p-4 rounded-lg">
+                    <h2 className="!mt-0 text-2xl font-bold">{blog.title}</h2>
+                </div>
 
-                        <div className="bg-gray-700 p-4 rounded-lg whitespace-pre-wrap leading-relaxed">
-                            {blog.content}
-                        </div>
-                    </div>
-                )}
+                <div className="bg-gray-700 p-4 rounded-lg whitespace-pre-wrap leading-relaxed">
+                    {blog.content}
+                </div>
             </div>
         </div>
     );
