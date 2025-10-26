@@ -74,7 +74,7 @@ export default function LinkForm({ linkType, title, imageFolder }: LinkFormProps
             <AdminActionBar
                 backPath="/admin/links"
                 onSave={handleSubmit}
-                loading={uploading}
+                saving={uploading}
             />
 
             <div className="space-y-2">
