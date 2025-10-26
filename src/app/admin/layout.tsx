@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import {logout, observeAuthState} from "@/lib/api";
 import {useEffect, useState} from "react";
-import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
