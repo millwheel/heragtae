@@ -1,9 +1,8 @@
 import {auth, db, storage} from "@/lib/firebase";
-import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc} from "firebase/firestore";
 import {LinkType, LinkItem, Blog} from "@/data/type";
 import {deleteObject, ref} from "firebase/storage";
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from "firebase/auth";
-import {serverTimestamp} from "@firebase/database";
 
 export async function getLinks(linkType: LinkType): Promise<LinkItem[]> {
     const ref = doc(db, "links", linkType);

@@ -53,8 +53,8 @@ export default function AdminBlogsPage() {
                                 <div className="pr-4">
                                     <h2 className="text-lg font-semibold break-words">{b.title}</h2>
                                     <p className="text-xs text-gray-500">
-                                        {b.slug} ·{" "}
-                                        {b.updatedAt ? new Date(b.updatedAt).toLocaleString() : ""}
+                                        slug: {b.slug} ·{" "}
+                                        수정시각: {b.updatedAt ? new Date(b.updatedAt).toLocaleString() : ""}
                                     </p>
                                 </div>
 
