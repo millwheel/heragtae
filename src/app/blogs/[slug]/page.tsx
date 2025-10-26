@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 export async function generateMetadata(
     { params }: { params: { slug: string } }
 ): Promise<Metadata> {
-    const blog = await fetchBlog(params.slug);
+    const { slug } = await params;
+    const blog = await fetchBlog(slug);
     const title = blog?.title ?? "제목 없는 블로그";
     const description = blog
         ? blog.content.slice(0, 200) + (blog.content.length > 200 ? "…" : "")
@@ -23,12 +24,13 @@ export async function generateMetadata(
     return {
         title,
         description,
-        alternates: { canonical: `/blogs/${params.slug}` },
+        alternates: { canonical: `/blogs/${slug}` },
     };
 }
 
 export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
-    const blog = await fetchBlog(params.slug);
+    const { slug } = await params;
+    const blog = await fetchBlog(slug);
     if (!blog) return notFound();
 
     return (
