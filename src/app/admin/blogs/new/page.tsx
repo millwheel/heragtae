@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { saveBlog, getBlog } from "@/lib/api";
@@ -118,7 +117,7 @@ export default function AdminBlogNewPage() {
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="내용을 입력하세요"
                         rows={12}
-                        className="border p-2 w-full rounded"
+                        className="border p-2 w-full rounded resize-none"
                     />
                 </div>
             </div>
