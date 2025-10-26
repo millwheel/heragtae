@@ -59,7 +59,7 @@ export default function AdminBlogNewPage() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 space-y-6">
+        <div className="max-w-4xl mx-auto p-6 space-y-6">
             <Toaster position="top-center" />
 
             <h1 className="text-2xl font-bold">새 블로그 글 작성</h1>
