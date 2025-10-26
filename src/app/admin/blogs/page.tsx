@@ -60,21 +60,21 @@ export default function AdminBlogsPage() {
 
                                 <div className="flex items-center gap-2">
                                     <Link
-                                        href={`/admin/blogs/edit/${b.slug}`}
-                                        className="px-3 py-1 rounded bg-gray-800 text-white text-sm hover:bg-gray-700 transition"
+                                        href={`/admin/blogs/${b.slug}/edit/`}
+                                        className="px-3 py-1 rounded bg-gray-700 text-white text-sm hover:bg-gray-500 transition"
                                     >
                                         수정
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(b.slug)}
-                                        className="px-3 py-1 rounded bg-red-600 text-white text-sm hover:bg-red-500 transition"
+                                        className="px-3 py-1 rounded bg-red-600 text-white text-sm hover:bg-red-500 transition cursor-pointer"
                                     >
                                         삭제
                                     </button>
                                 </div>
                             </div>
 
-                            <p className="mt-3 text-gray-700 leading-relaxed break-words">
+                            <p className="mt-3 text-gray-300 leading-relaxed break-words">
                                 {excerpt(b.content, 200)}
                             </p>
                         </div>

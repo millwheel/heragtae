@@ -1,56 +1,63 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useMemo } from "react";
+import { useParams, useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { saveBlog, getBlog } from "@/lib/api";
 import AdminActionBar from "@/components/adminActionBar";
-import {validateSlug} from "@/util/stringUtils";
+import { getBlog, saveBlog } from "@/lib/api";
 
-export default function AdminBlogNewPage() {
+export default function AdminBlogEditPage() {
+    const { slug: rawSlug } = useParams<{ slug: string }>();
+    const slug = useMemo(() => decodeURIComponent(rawSlug ?? ""), [rawSlug]);
+
     const router = useRouter();
-    const [title, setTitle] = useState("");
-    const [slug, setSlug] = useState("");
-    const [content, setContent] = useState("");
-    const [uploading, setUploading] = useState(false);
+    const [saving, setSaving] = useState(false);
 
-    const slugInvalid = slug.length > 0 && !validateSlug(slug);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+
+    useEffect(() => {
+        (async () => {
+            if (!slug) return;
+            try {
+                const blog = await getBlog(slug);
+                if (!blog) {
+                    toast.error("글을 찾을 수 없습니다.");
+                    router.replace("/admin/blogs");
+                    return;
+                }
+                setTitle(blog.title ?? "");
+                setContent(blog.content ?? "");
+            } catch (e) {
+                console.error(e);
+                toast.error("불러오는 중 오류가 발생했습니다.");
+                router.replace("/admin/blogs");
+            }
+        })();
+    }, [slug, router]);
 
     async function handleSubmit() {
         const trimmedTitle = title.trim();
-        const trimmedSlug = slug.trim(); // 사용자 입력 그대로 사용
         const trimmedContent = content.trim();
 
-        if (!trimmedTitle || !trimmedSlug || !trimmedContent) {
-            toast.error("제목, 슬러그, 본문을 모두 입력해주세요.");
-            return;
-        }
-        if (!validateSlug(trimmedSlug)) {
-            toast.error("슬러그는 영문자(A–Z, a–z)와 하이픈(-)만 사용할 수 있습니다.");
+        if (!trimmedTitle || !trimmedContent) {
+            toast.error("제목과 본문을 입력해주세요.");
             return;
         }
 
-        setUploading(true);
+        setSaving(true);
         try {
-            const exists = await getBlog(trimmedSlug);
-            if (exists) {
-                toast.error("이미 존재하는 슬러그입니다. 다른 값을 사용해주세요.");
-                return;
-            }
-
             await saveBlog({
                 title: trimmedTitle,
-                slug: trimmedSlug,
+                slug, // 슬러그는 수정하지 않음
                 content: trimmedContent,
             });
-
-            toast.success("블로그 글이 생성되었습니다.");
             router.push("/admin/blogs");
         } catch (err) {
+            console.error("블로그 수정 실패:", err);
             toast.error("저장 중 오류가 발생했습니다.");
-            console.error("블로그 저장 실패:", err);
         } finally {
-            setUploading(false);
+            setSaving(false);
         }
     }
 
@@ -58,12 +65,12 @@ export default function AdminBlogNewPage() {
         <div className="max-w-4xl mx-auto p-6 space-y-6">
             <Toaster position="top-center" />
 
-            <h1 className="text-2xl font-bold">새 블로그 글 작성</h1>
+            <h1 className="text-2xl font-bold">블로그 글 수정</h1>
 
             <AdminActionBar
                 backPath="/admin/blogs"
                 onSave={handleSubmit}
-                loading={uploading}
+                loading={saving}
             />
 
             <div className="space-y-5">
@@ -83,20 +90,11 @@ export default function AdminBlogNewPage() {
                     <input
                         type="text"
                         value={slug}
-                        onChange={(e) => setSlug(e.target.value)}
-                        placeholder="예: my-first-post"
-                        className={`border p-2 w-full rounded ${
-                            slugInvalid ? "border-red-500" : ""
-                        }`}
+                        disabled
+                        className="border p-2 w-full rounded text-gray-600"
                     />
-                    <p className={`text-xs ${slugInvalid ? "text-red-600" : "text-gray-500"}`}>
-                        {slugInvalid ? (
-                            "슬러그는 영문자와 하이픈(-)만 가능합니다."
-                        ) : (
-                            <>
-                                URL에 사용됩니다. 예) <code>/blogs/{slug || "my-first-post"}</code>
-                            </>
-                        )}
+                    <p className="text-xs text-gray-500">
+                        URL에 사용됩니다. 예) <code>/blogs/{slug}</code>
                     </p>
                 </div>
 
@@ -110,6 +108,7 @@ export default function AdminBlogNewPage() {
                         className="border p-2 w-full rounded resize-none"
                     />
                 </div>
+
             </div>
         </div>
     );
