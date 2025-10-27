@@ -14,7 +14,7 @@ export default function GlobalNavigationBar() {
                     href="/blogs"
                     className="absolute left-1/2 transform -translate-x-1/2 text-xl text-gray-900"
                 >
-                    보증 365 안전 놀이터
+                    토토 블로그
                 </Link>
             </div>
         </header>
